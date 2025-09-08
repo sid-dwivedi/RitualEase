@@ -7,10 +7,19 @@
 <h2>Welcome, Pandit!</h2>
 
 <ul>
-    <!-- ✅ My Bookings page link -->
+    <!-- ✅ My Bookings page link (original - untouched) -->
     <li><a th:href="@{/pandit/booking}">View My Bookings</a></li>
 
-    <!-- Logout link -->
+    <!-- ✅ New Sections added -->
+    <li><a th:href="@{/pandit/bookings/pending}">Pending Booking Requests</a></li>
+    <li><a th:href="@{/pandit/bookings/accepted}">Accepted / Upcoming Bookings</a></li>
+    <li><a th:href="@{/pandit/bookings/history}">Booking History</a></li>
+    <li><a th:href="@{/pandit/payments}">Payments / Earnings</a></li>
+    <li><a th:href="@{/pandit/reviews}">Reviews & Ratings</a></li>
+    <li><a th:href="@{/pandit/profile}">Profile Settings</a></li>
+    <li><a th:href="@{/pandit/support}">Help & Support</a></li>
+
+    <!-- ✅ Logout link (original - untouched) -->
     <li><a th:href="@{/logout}">Logout</a></li>
 </ul>
 
