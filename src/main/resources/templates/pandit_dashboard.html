@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Pandit Dashboard</title>
+</head>
+<body>
+<h2>Welcome, Pandit!</h2>
+
+<ul>
+    <!-- ✅ My Bookings page link -->
+    <li><a th:href="@{/pandit/booking}">View My Bookings</a></li>
+
+    <!-- Logout link -->
+    <li><a th:href="@{/logout}">Logout</a></li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Bookings</title>
+</head>
+<body>
+<h2>My Bookings</h2>
+
+<div th:if="${#lists.isEmpty(bookings)}">
+    <p>No bookings found.</p>
+</div>
+
+<div th:if="${!#lists.isEmpty(bookings)}">
+    <table border="1">
+        <thead>
+        <tr>
+            <th>Puja</th>
+            <th>Pandit</th>
+            <th>Date</th>
+            <th>Time Slot</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="booking : ${bookings}">
+            <td th:text="${booking.puja.pujaName}"></td>
+            <td th:text="${booking.pandit.userName}"></td>
+            <td th:text="${booking.date}"></td>
+            <td th:text="${booking.timeSlot}"></td>
+            <td th:text="${booking.status}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<a th:href="@{/dashboard}">Back to Dashboard</a>
+</body>
+</html>

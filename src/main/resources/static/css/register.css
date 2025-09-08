@@ -1,0 +1,107 @@
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background: url("kundli.jpeg") no-repeat center center fixed; /* 🎯 Add your own background image path */
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-container {
+    background: rgba(255, 255, 255, 0.95);
+    max-width: 400px;
+    width: 100%;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.register-container h2 {
+    font-size: 26px;
+    margin-bottom: 25px;
+    color: #333;
+    font-weight: 600;
+}
+
+/* Form Fields */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #555;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: #ff6f00;
+}
+
+/* Message styles */
+[th\\:if] {
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Submit Button */
+.btn {
+    background: linear-gradient(135deg, #ff6f00, #ffb300); /* Orange gradient */
+    color: #fff;
+    padding: 12px;
+    width: 100%;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background: linear-gradient(135deg, #e65100, #ffa000);
+    box-shadow: 0 4px 10px rgba(255, 111, 0, 0.5);
+}
+
+/* Login link */
+.register-container p {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #444;
+}
+
+.register-container a {
+    color: #ff6f00;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.register-container a:hover {
+    color: #e65100;
+    text-decoration: underline;
+}

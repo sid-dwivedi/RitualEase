@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Select Pandit</title></head>
+<body>
+<h2>Select Pandit for <span th:text="${puja.pujaName}"></span></h2>
+<ul>
+    <li th:each="pandit : ${pandits}">
+        <span th:text="${pandit.userName}"></span> -
+        <span th:text="${pandit.expertise}"></span>
+        <a th:href="@{/book-puja/{pujaId}/{panditId}(pujaId=${puja.id}, panditId=${pandit.id})}">
+            Book
+        </a>
+    </li>
+</ul>
+</body>
+</html>

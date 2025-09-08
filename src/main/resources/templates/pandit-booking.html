@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Pandit Dashboard</title>
+</head>
+<body>
+<h2>My Bookings</h2>
+
+<div th:if="${#lists.isEmpty(bookings)}">
+    <p>No bookings found.</p>
+</div>
+
+<div th:if="${!#lists.isEmpty(bookings)}">
+    <table border="1">
+        <thead>
+        <tr>
+            <th>User</th>
+            <th>Puja</th>
+            <th>Date</th>
+            <th>Time Slot</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="booking : ${bookings}">
+            <td th:text="${booking.user.userName}"></td>
+            <td th:text="${booking.puja.pujaName}"></td>
+            <td th:text="${booking.date}"></td>
+            <td th:text="${booking.timeSlot}"></td>
+            <td th:text="${booking.status}"></td>
+            <td>
+                <a th:href="@{/pandit/bookings/{id}/accept(id=${booking.id})}">Accept</a> |
+                <a th:href="@{/pandit/bookings/{id}/reject(id=${booking.id})}">Reject</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<a th:href="@{/logout}">Logout</a>
+</body>
+</html>

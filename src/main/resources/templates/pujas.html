@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Available Pujas</title>
+</head>
+<body>
+<h2>Available Pujas</h2>
+
+<ul>
+    <!-- Iterate over pujas list -->
+    <li th:each="puja : ${pujas}">
+        <!-- Link to puja detail page -->
+        <a th:href="@{|/puja/${puja.id}|}" th:text="${puja.pujaName}"></a>
+        <span> - ₹<span th:text="${puja.price}"></span></span>
+    </li>
+</ul>
+
+</body>
+</html>

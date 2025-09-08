@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Puja Details</title>
+</head>
+<body>
+<h2 th:text="${puja.pujaName}"></h2>
+<p th:text="${puja.pujaDescription}"></p>
+<p><b>Price:</b> <span th:text="${puja.price}"></span></p>
+<a th:href="@{/puja/{id}/pandits(id=${puja.id})}">
+    <button>Select Pandit</button>
+</a>
+</body>
+</html>
