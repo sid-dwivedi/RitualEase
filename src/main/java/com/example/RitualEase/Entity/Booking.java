@@ -20,7 +20,12 @@ public class Booking {
     @JoinColumn(name = "puja_id")
     private Puja puja;
     private LocalDate date;
+    private LocalDate pujaDate;
     private String timeSlot;
+    private String location;
+//    private Double lat;
+//    private  Double lon;
+
     @Enumerated(EnumType.STRING)
     private BookingStatus status=BookingStatus.PENDING;
 }
