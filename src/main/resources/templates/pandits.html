@@ -25,6 +25,7 @@
             border-radius: 8px;
         }
     </style>
+    <!-- ✅ Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 </head>
 <body>
@@ -69,7 +70,9 @@
         <button id="closeMapBtn">Done</button>
     </div>
 </div>
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+
+<!-- ✅ Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <script>
     const currentBtn = document.getElementById("currentLocationBtn");
@@ -86,8 +89,10 @@
             const lon = pos.coords.longitude;
             const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
             const data = await res.json();
-            selectedLocation = { display_name: data.display_name };
+            selectedLocation = { display_name: data.display_name, lat, lon };
             alert("📍 Location selected: " + data.display_name);
+        }, () => {
+            alert("⚠ Could not fetch your current location.");
         });
     });
 
@@ -95,7 +100,7 @@
     manualBtn.addEventListener("click", () => {
         mapModal.style.display = "block";
         if (!map) {
-            map = L.map('map').setView([20.5937, 78.9629], 5);
+            map = L.map('map').setView([20.5937, 78.9629], 5); // Default India
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors'
             }).addTo(map);
@@ -107,11 +112,12 @@
                 const data = await res.json();
                 if (marker) map.removeLayer(marker);
                 marker = L.marker([lat, lon]).addTo(map).bindPopup(data.display_name).openPopup();
-                selectedLocation = { display_name: data.display_name };
+                selectedLocation = { display_name: data.display_name, lat, lon };
             });
         }
     });
 
+    // ✅ Close map modal
     closeMapBtn.addEventListener("click", () => {
         mapModal.style.display = "none";
         if (selectedLocation) {
@@ -135,7 +141,7 @@
             return;
         }
 
-        const url = `/book-puja/${pujaId}/${panditId}?location=${encodeURIComponent(selectedLocation.display_name)}&timeslot=${encodeURIComponent(timeslot)}&pujaDate=${pujaDate}`;
+        const url = `/book-puja/${pujaId}/${panditId}?location=${encodeURIComponent(selectedLocation.display_name)}&lat=${selectedLocation.lat}&lon=${selectedLocation.lon}&timeslot=${encodeURIComponent(timeslot)}&pujaDate=${pujaDate}`;
         window.location.href = url;
     }
 </script>

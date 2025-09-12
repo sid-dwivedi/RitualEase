@@ -22,102 +22,77 @@ import java.util.List;
 @Controller
 public class BookingController {
 
-    @Autowired
-    private UserRepository userRepository;
+    @Autowired private UserRepository userRepository;
+    @Autowired private BookingService bookingService;
+    @Autowired private PujaService pujaService;
+    @Autowired private PanditService panditService;
+    @Autowired private BookingRepository bookingRepository;
 
-    @Autowired
-    private BookingService bookingService;
+    // ✅ Add user to every model
+    @ModelAttribute("user")
+    public User addUserToModel(@AuthenticationPrincipal UserDetails userDetails) {
+        if(userDetails != null) {
+            return userRepository.findByUserName(userDetails.getUsername());
+        }
+        return null;
+    }
 
-    @Autowired
-    private PujaService pujaService;
-
-    @Autowired
-    private PanditService panditService;
-
-    @Autowired
-    private BookingRepository bookingRepository;
-
-    // 1️⃣ Show pandits for a puja with inline location & timeslot
     @GetMapping("/puja/{pujaId}/pandits")
     public String selectPandit(@PathVariable Long pujaId, Model model) {
         model.addAttribute("puja", pujaService.getPujaById(pujaId));
         model.addAttribute("pandits", panditService.getAllPandits());
-        return "pandits"; // pandits.html (inline form handles location + timeslot)
+        return "pandits"; // pandits.html
     }
 
-    // 2️⃣ Book puja with selected pandit, location, and timeslot
     @GetMapping("/book-puja/{pujaId}/{panditId}")
     public String bookPuja(@PathVariable Long pujaId,
                            @PathVariable Long panditId,
                            @AuthenticationPrincipal UserDetails userDetails,
                            @RequestParam String location,
-//                           @RequestParam Double lat,
-//                           @RequestParam Double lon,
                            @RequestParam("pujaDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate pujaDate,
                            @RequestParam String timeslot,
                            Model model) {
 
         User user = userRepository.findByUserName(userDetails.getUsername());
 
-        // Update user with location + timeslot
-        user.setLocation(location);
-//        user.setLat(lat);
-//        user.setLon(lon);
+        // ✅ Update location if changed
+        if(location != null && !location.isEmpty()) {
+            user.setLocation(location);
+        }
+
         user.setTimeslot(timeslot);
         userRepository.save(user);
 
-        // Create booking
-        bookingService.createBooking(pujaId, panditId, user, timeslot,pujaDate);
+        bookingService.createBooking(pujaId, panditId, user, timeslot, pujaDate);
 
         model.addAttribute("pujaName", pujaService.getPujaById(pujaId).getPujaName());
         model.addAttribute("panditName", panditService.getPanditById(panditId).getUserName());
+        model.addAttribute("location", user.getLocation());
 
         return "booking-success";
     }
 
-    // 3️⃣ Save user location from inline form
-    @PostMapping("/location/save")
-    public String saveLocation(@RequestParam String displayName,
-                               @RequestParam Double lat,
-                               @RequestParam Double lon,
-                               @AuthenticationPrincipal UserDetails userDetails,
-                               HttpSession session) {
+    @GetMapping("/dashboard/location")
+    public String showLocationForm(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         User user = userRepository.findByUserName(userDetails.getUsername());
-        user.setLocation(displayName);
-        user.setLat(lat);
-        user.setLon(lon);
-        userRepository.save(user);
-
-        // Continue booking if pending puja exists
-        Long pujaId = (Long) session.getAttribute("pendingPujaId");
-        Long panditId = (Long) session.getAttribute("pendingPanditId");
-        if(pujaId != null && panditId != null) {
-            return "redirect:/book-puja/" + pujaId + "/" + panditId;
-        }
-
-        return "redirect:/dashboard"; // default page
+        model.addAttribute("location", user.getLocation());
+        return "fragments/locationForm :: locationForm";
     }
 
-    // 4️⃣ Save timeslot from inline form
-    @PostMapping("/timeslot/save")
-    public String saveTimeSlot(@RequestParam String slot, HttpSession session) {
-        session.setAttribute("timeslot", slot);
-
-        Long pujaId = (Long) session.getAttribute("pendingPujaId");
-        Long panditId = (Long) session.getAttribute("pendingPanditId");
-        if(pujaId != null && panditId != null) {
-            return "redirect:/book-puja/" + pujaId + "/" + panditId;
-        }
-
+    @PostMapping("/dashboard/location/save")
+    public String saveDashboardLocation(@RequestParam String location,
+                                        @AuthenticationPrincipal UserDetails userDetails) {
+        User user = userRepository.findByUserName(userDetails.getUsername());
+        user.setLocation(location);
+        userRepository.save(user);
         return "redirect:/dashboard";
     }
 
-    // 5️⃣ User bookings page
     @GetMapping("/my-bookings")
     public String viewUserBooking(@AuthenticationPrincipal UserDetails userDetails, Model model){
         User user = userRepository.findByUserName(userDetails.getUsername());
         List<Booking> bookings = bookingRepository.findByUserId(user.getId());
         model.addAttribute("bookings", bookings);
-        return "user-booking"; // user-booking.html
+        return "user-booking";
     }
 }

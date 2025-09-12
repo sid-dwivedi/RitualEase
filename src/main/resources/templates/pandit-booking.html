@@ -18,6 +18,8 @@
             <th>Puja</th>
             <th>Date</th>
             <th>Time Slot</th>
+            <th>Location</th>
+            <th>Puja Date</th>
             <th>Status</th>
             <th>Action</th>
         </tr>
@@ -28,6 +30,8 @@
             <td th:text="${booking.puja.pujaName}"></td>
             <td th:text="${booking.date}"></td>
             <td th:text="${booking.timeSlot}"></td>
+            <td th:text="${booking.location}"></td>
+            <td th:text="${booking.pujaDate}"></td>
             <td th:text="${booking.status}"></td>
             <td>
                 <a th:href="@{/pandit/bookings/{id}/accept(id=${booking.id})}">Accept</a> |
