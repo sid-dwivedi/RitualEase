@@ -40,7 +40,7 @@ public class BookingController {
     @GetMapping("/puja/{pujaId}/pandits")
     public String selectPandit(@PathVariable Long pujaId, Model model) {
         model.addAttribute("puja", pujaService.getPujaById(pujaId));
-        model.addAttribute("pandits", panditService.getAllPandits());
+        model.addAttribute("pandits", panditService.getPanditsByPujaId(pujaId));
         return "pandits"; // pandits.html
     }
 

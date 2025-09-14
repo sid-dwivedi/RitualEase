@@ -3,8 +3,10 @@ package com.example.RitualEase.Controller;
 import com.example.RitualEase.Entity.Booking;
 import com.example.RitualEase.Entity.BookingStatus;
 import com.example.RitualEase.Entity.Pandit;
+import com.example.RitualEase.Entity.Puja;
 import com.example.RitualEase.Repository.BookingRepository;
 import com.example.RitualEase.Repository.PanditRepository;
+import com.example.RitualEase.Repository.PujaRepository;
 import com.example.RitualEase.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,8 +16,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -28,6 +32,8 @@ public class PanditBookingController {
     private UserRepository userRepository;
     @Autowired
     private PanditRepository panditRepository;
+    @Autowired
+    private PujaRepository pujaRepository;
     @GetMapping("/booking")
     public String viewPanditBookings(@AuthenticationPrincipal UserDetails userDetails, Model model){
         Pandit pandit = panditRepository.findByUserName(userDetails.getUsername());
@@ -50,6 +56,23 @@ public class PanditBookingController {
         booking.setStatus(BookingStatus.REJECTED);
         bookingRepository.save(booking);
         return "redirect:/pandit/booking";
+    }
+
+    @PostMapping("/addpuja/{pujaId}")
+    public String addPujaToPandit(@PathVariable Long pujaId,
+                                  @AuthenticationPrincipal UserDetails userDetails) {
+        Pandit pandit = panditRepository.findByUserName(userDetails.getUsername());
+        Puja puja= pujaRepository.findById(pujaId).orElse(null);
+        if (pandit!=null && puja!=null){
+            if (pandit.getPujas() == null) {
+                pandit.setPujas(new ArrayList<>());  // agar null hua to initialize karo
+            }
+            if (!pandit.getPujas().contains(puja)){
+                pandit.getPujas().add(puja);
+                panditRepository.save(pandit);
+            }
+        }
+        return "pandit_dashboard";
     }
     }
 

@@ -19,4 +19,8 @@ public class PanditService {
     public Pandit getPanditById(Long id) {
         return panditRepository.findById(id).orElse(null);
     }
+
+    public List<Pandit> getPanditsByPujaId(Long pujaId) {
+        return panditRepository.findByPujas_Id(pujaId);
+    }
 }

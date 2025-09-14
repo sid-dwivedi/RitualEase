@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Puja Details</title>
+</head>
+<body>
+<h2 th:text="${puja != null} ? ${puja.pujaName} : 'Puja not found'">Puja Name</h2>
+<p th:text="${puja.pujaDescription}">Puja Description</p>
+<p>
+    <b>Price:</b>
+    <span th:text="${puja.price}">0</span>
+</p>
+
+<form th:action="@{/pandit/addpuja/{pujaId}(pujaId=${puja.id})}" method="post">
+    <button type="submit">Select</button>
+</form>
+
+</body>
+</html>

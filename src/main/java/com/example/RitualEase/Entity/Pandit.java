@@ -2,6 +2,8 @@
 
     import jakarta.persistence.*;
 
+    import java.util.List;
+
     @Entity
     @Table(name = "pandits")
     public class Pandit {
@@ -68,5 +70,20 @@
         private String role = "PANDIT"; // default
         public String getRole() { return role; }
         public void setRole(String role) { this.role = role; }
+
+        @ManyToMany
+        @JoinTable(
+                name = "pandit_puja",
+                joinColumns = @JoinColumn(name = "pandit_id"),
+                inverseJoinColumns = @JoinColumn(name = "puja_id")
+        )
+        private List<Puja> pujas;
+        public List<Puja> getPujas() {
+            return pujas;
+        }
+
+        public void setPujas(List<Puja> pujas) {
+            this.pujas = pujas;
+        }
 
     }

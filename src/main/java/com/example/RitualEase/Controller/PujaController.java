@@ -20,6 +20,12 @@ public class PujaController {
         return "pujas"; // pujas.html
     }
 
+    @GetMapping("/panditsign/{id}")
+    public String panditAssign(@PathVariable Long id, Model model){
+        model.addAttribute("puja",pujaService.getPujaById(id));
+        return "panditpuja";
+    }
+
     // Show details of a single puja
     @GetMapping("/puja/{id}")
     public String pujaDetail(@PathVariable Long id, Model model) {
