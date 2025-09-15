@@ -55,7 +55,7 @@ public class BookingController {
 
         User user = userRepository.findByUserName(userDetails.getUsername());
 
-        // ✅ Update location if changed
+        //  Update location if changed
         if(location != null && !location.isEmpty()) {
             user.setLocation(location);
         }

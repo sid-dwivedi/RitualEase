@@ -1,24 +1,16 @@
 package com.example.RitualEase.Controller;
 
-import com.example.RitualEase.Entity.Booking;
-import com.example.RitualEase.Entity.BookingStatus;
-import com.example.RitualEase.Entity.Pandit;
-import com.example.RitualEase.Entity.Puja;
-import com.example.RitualEase.Repository.BookingRepository;
-import com.example.RitualEase.Repository.PanditRepository;
-import com.example.RitualEase.Repository.PujaRepository;
-import com.example.RitualEase.Repository.UserRepository;
+import com.example.RitualEase.Entity.*;
+import com.example.RitualEase.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +26,8 @@ public class PanditBookingController {
     private PanditRepository panditRepository;
     @Autowired
     private PujaRepository pujaRepository;
+    @Autowired
+    private PanditPujaRepository panditPujaRepository;
     @GetMapping("/booking")
     public String viewPanditBookings(@AuthenticationPrincipal UserDetails userDetails, Model model){
         Pandit pandit = panditRepository.findByUserName(userDetails.getUsername());
@@ -60,19 +54,46 @@ public class PanditBookingController {
 
     @PostMapping("/addpuja/{pujaId}")
     public String addPujaToPandit(@PathVariable Long pujaId,
-                                  @AuthenticationPrincipal UserDetails userDetails) {
+                                  @AuthenticationPrincipal UserDetails userDetails,
+                                  @RequestParam String location) {
         Pandit pandit = panditRepository.findByUserName(userDetails.getUsername());
-        Puja puja= pujaRepository.findById(pujaId).orElse(null);
-        if (pandit!=null && puja!=null){
-            if (pandit.getPujas() == null) {
-                pandit.setPujas(new ArrayList<>());  // agar null hua to initialize karo
-            }
-            if (!pandit.getPujas().contains(puja)){
-                pandit.getPujas().add(puja);
-                panditRepository.save(pandit);
-            }
+        Puja puja = pujaRepository.findById(pujaId).orElse(null);
+
+        if (pandit != null && puja != null) {
+            PanditPuja pp = new PanditPuja();
+            pp.setPandit(pandit);
+            pp.setPuja(puja);
+            pp.setLocation(location);
+
+            // ✅ ab isko save karo
+            panditPujaRepository.save(pp);
         }
         return "pandit_dashboard";
     }
-    }
+
+//    @PostMapping("/addpuja/{pujaId}")
+//    public String addPujaToPandit(@PathVariable Long pujaId,
+//                                  @AuthenticationPrincipal UserDetails userDetails,
+//                                  @RequestParam String location) {
+//
+//        Pandit pandit = panditRepository.findByUserName(userDetails.getUsername());
+//        Puja puja = pujaRepository.findById(pujaId).orElse(null);
+//
+//        if (pandit != null) {
+//            pandit.setLocation(location);   // ✅ सिर्फ address save होगा
+//            panditRepository.save(pandit);
+//        }
+//
+//        if (pandit != null && puja != null) {
+//            if (pandit.getPujas() == null) {
+//                pandit.setPujas(new ArrayList<>());
+//            }
+//            if (!pandit.getPujas().contains(puja)) {
+//                pandit.getPujas().add(puja);
+//                panditRepository.save(pandit);
+//            }
+//        }
+//        return "pandit_dashboard";
+//    }
+}
 

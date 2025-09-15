@@ -1,9 +1,10 @@
     package com.example.RitualEase.Entity;
 
     import jakarta.persistence.*;
+    import lombok.Data;
 
     import java.util.List;
-
+    @Data
     @Entity
     @Table(name = "pandits")
     public class Pandit {
@@ -17,7 +18,33 @@
         private String confirm_password;
 
         private String expertise;
+        private String location;
+        private Double lat;
+        private Double lon;
 
+        public Double getLat() {
+            return lat;
+        }
+
+        public void setLat(Double lat) {
+            this.lat = lat;
+        }
+
+        public Double getLon() {
+            return lon;
+        }
+
+        public void setLon(Double lon) {
+            this.lon = lon;
+        }
+
+        public String getLocation() {
+            return location;
+        }
+
+        public void setLocation(String location) {
+            this.location = location;
+        }
         // Optional:
 
         public Long getId() {
