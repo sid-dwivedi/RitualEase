@@ -60,7 +60,7 @@ public class PanditBookingController {
         Puja puja = pujaRepository.findById(pujaId).orElse(null);
 
         if (pandit != null && puja != null) {
-            PanditPuja pp = new PanditPuja();
+            PanditPuja pp = panditPujaRepository.findByPanditAndPuja(pandit,puja).orElse(new PanditPuja());
             pp.setPandit(pandit);
             pp.setPuja(puja);
             pp.setLocation(location);

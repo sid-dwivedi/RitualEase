@@ -54,61 +54,69 @@
 
 <script>
     const currentBtn = document.getElementById("currentLocationBtn");
-    const manualBtn = document.getElementById("manualLocationBtn");
-    const mapModal = document.getElementById("mapModal");
-    const closeMapBtn = document.getElementById("closeMapBtn");
-    let selectedLocation = null;
-    let map, marker;
+ const manualBtn = document.getElementById("manualLocationBtn");
+ const mapModal = document.getElementById("mapModal");
+ const closeMapBtn = document.getElementById("closeMapBtn");
+ let selectedLocation = null;
+ let map, marker;
 
-    // ✅ Current location button
-   navigator.geolocation.getCurrentPosition(async (pos) => {
-    const lat = pos.coords.latitude;
-    const lon = pos.coords.longitude;
-    const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
-    const data = await res.json();
+ // ✅ Current location button
+ currentBtn.addEventListener("click", () => {
+     navigator.geolocation.getCurrentPosition(async (pos) => {
+         const lat = pos.coords.latitude;
+         const lon = pos.coords.longitude;
+         const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
+         const data = await res.json();
 
-    selectedLocation = data.display_name;
+         selectedLocation = data.display_name;
 
-    // ✅ hidden input me address store karo
-    document.getElementById("locationInput").value = selectedLocation;
+         // ✅ hidden input me address store karo
+         document.getElementById("locationInput").value = selectedLocation;
 
-    // ✅ ab Select button enable hoga
-    document.getElementById("selectBtn").disabled = false;
+         // ✅ ab Select button enable hoga
+         document.getElementById("selectBtn").disabled = false;
 
-    alert("📍 Location selected: " + selectedLocation);
-});
+         alert("📍 Location selected: " + selectedLocation);
+     });
+ });
 
-    // ✅ Manual location button → open map
-    manualBtn.addEventListener("click", () => {
-        mapModal.style.display = "block";
-        if (!map) {
-            map = L.map('map').setView([20.5937, 78.9629], 5); // Default India
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
+ // ✅ Manual location button → open map
+ manualBtn.addEventListener("click", () => {
+     mapModal.style.display = "block";
+     if (!map) {
+         map = L.map('map').setView([20.5937, 78.9629], 5); // Default India
+         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+             attribution: '© OpenStreetMap contributors'
+         }).addTo(map);
 
-            map.on('click', async function (e) {
-                let lat = e.latlng.lat;
-                let lon = e.latlng.lng;
-                const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
-                const data = await res.json();
-                if (marker) map.removeLayer(marker);
-                marker = L.marker([lat, lon]).addTo(map).bindPopup(data.display_name).openPopup();
-                selectedLocation = { display_name: data.display_name, lat, lon };
-            });
-        }
-    });
+         map.on('click', async function (e) {
+             let lat = e.latlng.lat;
+             let lon = e.latlng.lng;
+             const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
+             const data = await res.json();
+             if (marker) map.removeLayer(marker);
+             marker = L.marker([lat, lon]).addTo(map).bindPopup(data.display_name).openPopup();
+             selectedLocation = data.display_name;
 
-    // ✅ Close map modal
-    closeMapBtn.addEventListener("click", () => {
-        mapModal.style.display = "none";
-        if (selectedLocation) {
-            alert("📍 Location selected: " + selectedLocation.display_name);
-        } else {
-            alert("⚠ Please click somewhere on the map first.");
-        }
-    }
-    );
+             // ✅ hidden input update karo
+             document.getElementById("locationInput").value = selectedLocation;
+
+             // ✅ button enable karo
+             document.getElementById("selectBtn").disabled = false;
+         });
+     }
+ });
+
+ // ✅ Close map modal
+ closeMapBtn.addEventListener("click", () => {
+     mapModal.style.display = "none";
+     if (selectedLocation) {
+         alert("📍 Location selected: " + selectedLocation);
+     } else {
+         alert("⚠ Please click somewhere on the map first.");
+     }
+ });
+
 </script>
 <form th:action="@{/pandit/addpuja/{pujaId}(pujaId=${puja.id})}" method="post">
     <input type="hidden" id="locationInput" name="location"/>
