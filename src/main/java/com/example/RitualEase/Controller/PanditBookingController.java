@@ -65,7 +65,7 @@ public class PanditBookingController {
             pp.setPuja(puja);
             pp.setLocation(location);
 
-            // ✅ ab isko save karo
+            // ✅ ab isko save karo ///
             panditPujaRepository.save(pp);
         }
         return "pandit_dashboard";
