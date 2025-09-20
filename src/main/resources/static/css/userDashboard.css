@@ -6,14 +6,14 @@
 }
 
 body{
-	background: rgb(247, 124, 1);
+	background: rgb(255, 201, 0);
 	margin-bottom: -32px;
 }
 
 /* Hero section */
 
 .hero__section{
-	background-image: url('./Images/heroSectionBackground.png');
+	background-image: url('');
 	height: 400px;
 	background-size: cover;
 	background-position: center;
@@ -65,8 +65,8 @@ body{
 }
 
 .hero__section_logo{
-	height: 116px;
-    width: 388px;
+	height: 230px;
+    width: 270px;
 }
 
 
@@ -89,12 +89,12 @@ body{
 }
 
 #location_icon{
-	color: rgb(239,79,95);
+	color: rgb(255, 220, 204);
 	margin-top: -4px;
 }
 
 #search_icon{
-	color: rgb(239,79,95);
+	color: rgb(255, 155, 0);
 	margin-right: 3px;
 }
 
@@ -267,19 +267,19 @@ body{
 } 
 
 .card1{
-	background-image: url('./Images/collection1.jpg');
+	background-image: url('./image/Havan.png');
 }
 
 .card2{
-	background-image: url('./Images/collection2.jpg');
+	background-image: url('./image/GodsPritima.png');
 }
 
 .card3{
-	background-image: url('./Images/collection3.jpg');
+	background-image: url('./image/satyanrayan\ samgri.png');
 }
 
 .card4{
-	background-image: url('./Images/collection4.jpg');
+	background-image: url('./image/Panchmeva.png');
 }
 
 .overlay{
