@@ -65,7 +65,7 @@ public class PanditBookingController {
             pp.setPuja(puja);
             pp.setLocation(location);
 
-            // ✅ ab isko save karo ///
+            // ✅ ab isko save  ///
             panditPujaRepository.save(pp);
         }
         return "pandit_dashboard";
@@ -75,7 +75,6 @@ public class PanditBookingController {
 //    public String addPujaToPandit(@PathVariable Long pujaId,
 //                                  @AuthenticationPrincipal UserDetails userDetails,
 //                                  @RequestParam String location) {
-//
 //        Pandit pandit = panditRepository.findByUserName(userDetails.getUsername());
 //        Puja puja = pujaRepository.findById(pujaId).orElse(null);
 //
