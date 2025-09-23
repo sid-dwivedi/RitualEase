@@ -21,7 +21,6 @@ public class PanditPuja {
     @JoinColumn(name = "puja_id")
     private Puja puja;
 
-    // ✅ extra column jo tum chahte ho
     private String location;
 
     // getters, setters

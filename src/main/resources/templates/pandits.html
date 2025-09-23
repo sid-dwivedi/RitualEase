@@ -25,7 +25,7 @@
             border-radius: 8px;
         }
     </style>
-    <!-- ✅ Leaflet CSS -->
+    <!--  Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 </head>
 <body>
@@ -71,7 +71,7 @@
     </div>
 </div>
 
-<!-- ✅ Leaflet JS -->
+<!--Leaflet JS -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <script>
@@ -82,7 +82,7 @@
     let selectedLocation = null;
     let map, marker;
 
-    // ✅ Current location button
+    //  Current location button
     currentBtn.addEventListener("click", () => {
         navigator.geolocation.getCurrentPosition(async (pos) => {
             const lat = pos.coords.latitude;
@@ -96,7 +96,7 @@
         });
     });
 
-    // ✅ Manual location button → open map
+    //  Manual location button yaha se map open hoga → open map
     manualBtn.addEventListener("click", () => {
         mapModal.style.display = "block";
         if (!map) {
@@ -117,7 +117,7 @@
         }
     });
 
-    // ✅ Close map modal
+    //  Close map modal
     closeMapBtn.addEventListener("click", () => {
         mapModal.style.display = "none";
         if (selectedLocation) {
@@ -127,7 +127,7 @@
         }
     });
 
-    // ✅ Book puja button
+    // Book puja button
     function bookPuja(pujaId, panditId) {
         const timeslot = document.getElementById("timeslotSelect").value;
         const pujaDate = document.getElementById("pujaDate").value;

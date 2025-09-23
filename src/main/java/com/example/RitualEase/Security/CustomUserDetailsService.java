@@ -1,4 +1,4 @@
-package com.example.RitualEase.Sequrity;
+package com.example.RitualEase.Security;
 import com.example.RitualEase.Entity.Pandit;
 import com.example.RitualEase.Entity.User;
 import com.example.RitualEase.Repository.PanditRepository;

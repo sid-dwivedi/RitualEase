@@ -79,7 +79,7 @@ public class PanditBookingController {
 //        Puja puja = pujaRepository.findById(pujaId).orElse(null);
 //
 //        if (pandit != null) {
-//            pandit.setLocation(location);   // ✅ सिर्फ address save होगा
+//            pandit.setLocation(location);   //
 //            panditRepository.save(pandit);
 //        }
 //
