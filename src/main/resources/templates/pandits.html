@@ -2,57 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Select Pandit</title>
-    <style>
-        #mapModal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            z-index: 1000;
-        }
-        #mapContainer {
-            position: relative;
-            margin: 5% auto;
-            width: 80%; height: 80%;
-            background: #fff;
-            border-radius: 8px;
-            padding: 10px;
-        }
-        #map {
-            height: 90%;
-            width: 100%;
-            border-radius: 8px;
-        }
-    </style>
-    <!--  Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 </head>
 <body>
 <h2>Select Pandit for <span th:text="${puja.pujaName}"></span></h2>
-
-<!-- ===== Location Section ===== -->
-<div id="location-section">
-    <h3>Your Location</h3>
-    <button id="currentLocationBtn">Use My Current Location</button>
-    <button id="manualLocationBtn">Choose on Map</button>
-</div>
-
-<!-- ===== Time Slot Section ===== -->
-<div id="timeslot-section" style="margin-top:20px;">
-    <h3>Select Time Slot</h3>
-    <select id="timeslotSelect">
-        <option value="Morning">Morning</option>
-        <option value="Afternoon">Afternoon</option>
-        <option value="Evening">Evening</option>
-    </select>
-</div>
-
-<!-- ===== Puja Date ===== -->
-<div id="date-section" style="margin-top:20px;">
-    <h3>Select Puja Date</h3>
-    <input type="date" id="pujaDate">
-</div>
 
 <!-- ===== Pandit List ===== -->
 <ul>
@@ -63,85 +15,18 @@
     </li>
 </ul>
 
-<!-- ===== Map Modal ===== -->
-<div id="mapModal">
-    <div id="mapContainer">
-        <div id="map"></div>
-        <button id="closeMapBtn">Done</button>
-    </div>
-</div>
-
-<!--Leaflet JS -->
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
 <script>
-    const currentBtn = document.getElementById("currentLocationBtn");
-    const manualBtn = document.getElementById("manualLocationBtn");
-    const mapModal = document.getElementById("mapModal");
-    const closeMapBtn = document.getElementById("closeMapBtn");
-    let selectedLocation = null;
-    let map, marker;
-
-    //  Current location button
-    currentBtn.addEventListener("click", () => {
-        navigator.geolocation.getCurrentPosition(async (pos) => {
-            const lat = pos.coords.latitude;
-            const lon = pos.coords.longitude;
-            const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
-            const data = await res.json();
-            selectedLocation = { display_name: data.display_name, lat, lon };
-            alert("📍 Location selected: " + data.display_name);
-        }, () => {
-            alert("⚠ Could not fetch your current location.");
-        });
-    });
-
-    //  Manual location button yaha se map open hoga → open map
-    manualBtn.addEventListener("click", () => {
-        mapModal.style.display = "block";
-        if (!map) {
-            map = L.map('map').setView([20.5937, 78.9629], 5); // Default India
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-
-            map.on('click', async function (e) {
-                let lat = e.latlng.lat;
-                let lon = e.latlng.lng;
-                const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
-                const data = await res.json();
-                if (marker) map.removeLayer(marker);
-                marker = L.marker([lat, lon]).addTo(map).bindPopup(data.display_name).openPopup();
-                selectedLocation = { display_name: data.display_name, lat, lon };
-            });
-        }
-    });
-
-    //  Close map modal
-    closeMapBtn.addEventListener("click", () => {
-        mapModal.style.display = "none";
-        if (selectedLocation) {
-            alert("📍 Location selected: " + selectedLocation.display_name);
-        } else {
-            alert("⚠ Please click somewhere on the map first.");
-        }
-    });
-
-    // Book puja button
     function bookPuja(pujaId, panditId) {
-        const timeslot = document.getElementById("timeslotSelect").value;
-        const pujaDate = document.getElementById("pujaDate").value;
+        const locationData = JSON.parse(localStorage.getItem("puja_location"));
+        const pujaDate = localStorage.getItem("puja_date");
+        const timeslot = localStorage.getItem("puja_timeslot");
 
-        if (!selectedLocation) {
-            alert("⚠ Please select your location first!");
-            return;
-        }
-        if (!pujaDate) {
-            alert("⚠ Please select a puja date!");
+        if (!locationData || !pujaDate || !timeslot) {
+            alert("⚠ Missing details! Please go back and select them.");
             return;
         }
 
-        const url = `/book-puja/${pujaId}/${panditId}?location=${encodeURIComponent(selectedLocation.display_name)}&lat=${selectedLocation.lat}&lon=${selectedLocation.lon}&timeslot=${encodeURIComponent(timeslot)}&pujaDate=${pujaDate}`;
+        const url = `/book-puja/${pujaId}/${panditId}?location=${encodeURIComponent(locationData.display_name)}&lat=${locationData.lat}&lon=${locationData.lon}&timeslot=${encodeURIComponent(timeslot)}&pujaDate=${pujaDate}`;
         window.location.href = url;
     }
 </script>

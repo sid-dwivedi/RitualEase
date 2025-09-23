@@ -75,6 +75,7 @@ body{
     word-spacing: 3px;
     font-size: 30px;
     font-weight: 380;
+	 font-weight: bold;
 }
 
 .hero__section_container_input{
@@ -105,11 +106,23 @@ body{
 }
 
 
-.hero__section_input_location{
-	width: 35%;
-	border-right: 2px solid #C0C0C0;
-	color: gray;
-	font-size: 12.9px;
+.hero__section_input_location {
+    width: 35%;
+    border-right: 2px solid #C0C0C0;
+    color: gray;         /* text color */
+    font-size: 12.9px;
+    text-decoration: none;      /* underline hataya */
+    font-weight: bold;
+
+    /* Center align */
+    display: block;             /* block element banaya */
+    margin: 0 auto;             /* horizontally center */
+    text-align: center;         /* text bhi center me rahe */
+}
+
+.hero__section_input_location:hover {
+    text-decoration: underline; 
+    color: #ff9800;             
 }
 
 .hero__section_input_search{

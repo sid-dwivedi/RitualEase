@@ -42,7 +42,7 @@
 		<nav class = "navbar">
 			<a href = "#">Get the App</a>
 			<div class = "navbar__menu_container">
-				<a href = "#" class = "link" >Puja </a>
+				<a th:href="@{/pujas}" class="link">Puja</a>
 				<a th:href="@{/my-bookings}" class="link">MyBooking</a>
 				<a th:href="@{/login}" class = "link" >Logout</a>
 				<a th:href="@{/register}" class = "link" >reger</a>
@@ -55,18 +55,14 @@
 		<h1 class = "hero__section_heading">Select Your Brahman </h1>
 		<div class = "hero__section_container_input">
 			<i class="fa-sharp fa-solid fa-location-dot" id = "location_icon"></i>
-			<select class = "hero__section_input_location">
-				<option>Pune</option>
-				<option>Mumbai</option>
-				<option>Banglore</option>
-				<option>Delhi</option>
-			</select>
+			<a href="/pujas" class="hero__section_input_location">All Puja</a>
+
 			<i class="fa-solid fa-magnifying-glass" id = "search_icon"></i>
-			<input class = "hero__section_input_search" type = "text" placeholder = "Search your location " />
+			<input class = "hero__section_input_search" type = "text" placeholder = "Search your Puja " />
 		</div>
 	</div>
 </section>
-<!-- This is for cards that zomato offer -->
+<!-- This is for cards that Puja offer -->
 <section class = "container_cards">
 
 	<div class = "we_offer__cards">
