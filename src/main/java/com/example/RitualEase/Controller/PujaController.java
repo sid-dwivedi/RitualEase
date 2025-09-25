@@ -32,4 +32,10 @@ public class PujaController {
         model.addAttribute("puja", pujaService.getPujaById(id));
         return "pujadetaild"; // pujadetail.html
     }
+
+    @GetMapping("/allPuja")
+    public String allPujaPage() {
+        return "allPuja"; // ye "templates/allPuja.html" render karega
+    }
+
 }

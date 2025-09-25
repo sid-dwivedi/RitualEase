@@ -3,14 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>6 Cards Layout</title>
- <link rel="stylesheet" href="/css/allPuja.css">
-
+  <title>All Puja - 6 Cards Layout</title>
+  <link rel="stylesheet" href="/css/allPuja.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-M+N1ZzBxhxwK2QbT8K2mQ..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
 
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-logo">
+      <img src="/css/image/RitualEasep.png" alt="RitualEase">
+      <span>RitualEase</span>
+    </div>
+    <ul class="navbar-menu">
+      <li><a href="/" class="active">Home</a></li>
+      <li><a href="/allPuja">All Puja</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+    <div class="navbar-icons">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <i class="fa-solid fa-user"></i>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="hero__section_container">
+    <h1 class="hero__section_heading">Select Your Brahman</h1>
+    <div class="hero__section_container_input">
+      <i class="fa-sharp fa-solid fa-location-dot" id="location_icon"></i>
+      <a href="/allPuja" class="hero__section_input_location">All Puja</a>
+      <i class="fa-solid fa-magnifying-glass" id="search_icon"></i>
+      <input class="hero__section_input_search" type="text" placeholder="Search your Puja" />
+    </div>
+  </div>
+
+  <!-- Main Cards Section -->
   <main class="container">
-    
     <!-- Card 1 -->
     <div class="card">
       <div class="card-image">
@@ -47,11 +76,13 @@
     <!-- Card 4 -->
     <div class="card">
       <div class="card-image">
-        <img src="https://picsum.photos/400/250?random=4" alt="Sample Image 4">
+        <a th:href="@{/puja/1}" target="_blank">
+			<img th:src="@{/image/gc1.webp}" alt="card1 image">
+		</a>
       </div>
       <div class="card-content">
-        <h2>Card Title 4</h2>
-        <p>This is a description for card 4. Add information about the image here.</p>
+        <h2>Ganesh Puja</h2>
+        <p>This is ganesh pujan .</p>
       </div>
     </div>
 
@@ -76,7 +107,6 @@
         <p>This is a description for card 6. Replace this text with real content.</p>
       </div>
     </div>
-
   </main>
 
 </body>
