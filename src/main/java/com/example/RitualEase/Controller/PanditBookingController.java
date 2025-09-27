@@ -55,6 +55,8 @@ public class PanditBookingController {
     @PostMapping("/addpuja/{pujaId}")
     public String addPujaToPandit(@PathVariable Long pujaId,
                                   @AuthenticationPrincipal UserDetails userDetails,
+                                  @RequestParam double latitude,
+                                  @RequestParam double longitude,
                                   @RequestParam String location) {
         Pandit pandit = panditRepository.findByUserName(userDetails.getUsername());
         Puja puja = pujaRepository.findById(pujaId).orElse(null);
@@ -63,6 +65,8 @@ public class PanditBookingController {
             PanditPuja pp = panditPujaRepository.findByPanditAndPuja(pandit,puja).orElse(new PanditPuja());
             pp.setPandit(pandit);
             pp.setPuja(puja);
+            pp.setLatitude(latitude);
+            pp.setLongitude(longitude);
             pp.setLocation(location);
 
             // ✅ ab isko save  ///

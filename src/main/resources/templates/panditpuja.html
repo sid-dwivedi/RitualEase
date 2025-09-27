@@ -70,17 +70,19 @@
 
          selectedLocation = data.display_name;
 
-         // ✅ hidden input me address store karo
+         //  hidden input me address store karo
          document.getElementById("locationInput").value = selectedLocation;
+         document.getElementById("latitudeInput").value = lat;
+         document.getElementById("longitudeInput").value = lon;
 
-         // ✅ ab Select button enable hoga
+         //  ab Select button enable hoga
          document.getElementById("selectBtn").disabled = false;
 
          alert("📍 Location selected: " + selectedLocation);
      });
  });
 
- // ✅ Manual location button → open map
+ //  Manual location button → open map
  manualBtn.addEventListener("click", () => {
      mapModal.style.display = "block";
      if (!map) {
@@ -98,10 +100,12 @@
              marker = L.marker([lat, lon]).addTo(map).bindPopup(data.display_name).openPopup();
              selectedLocation = data.display_name;
 
-             // ✅ hidden input update karo
+             //  hidden input update karo
              document.getElementById("locationInput").value = selectedLocation;
+             document.getElementById("latitudeInput").value = lat;
+             document.getElementById("longitudeInput").value = lon;
 
-             // ✅ button enable karo
+             // button enable karo
              document.getElementById("selectBtn").disabled = false;
          });
      }
@@ -120,6 +124,8 @@
 </script>
 <form th:action="@{/pandit/addpuja/{pujaId}(pujaId=${puja.id})}" method="post">
     <input type="hidden" id="locationInput" name="location"/>
+    <input type="hidden" id="latitudeInput" name="latitude"/>
+    <input type="hidden" id="longitudeInput" name="longitude"/>
     <button type="submit" id="selectBtn" disabled>Select</button>
 </form>
 

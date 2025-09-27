@@ -22,6 +22,8 @@ public class PanditPuja {
     private Puja puja;
 
     private String location;
+    private double latitude;
+    private double longitude;
 
     // getters, setters
 }
