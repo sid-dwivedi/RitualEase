@@ -6,10 +6,12 @@ import com.example.RitualEase.Entity.Puja;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface PanditPujaRepository extends JpaRepository<PanditPuja, Long> {
     Optional<PanditPuja> findByPanditAndPuja(Pandit pandit, Puja puja);
+    List<PanditPuja> findByPujaId(Long pujaId);
 }
 

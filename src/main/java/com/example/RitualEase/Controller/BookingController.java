@@ -1,6 +1,7 @@
 package com.example.RitualEase.Controller;
 
 import com.example.RitualEase.Entity.Booking;
+import com.example.RitualEase.Entity.Pandit;
 import com.example.RitualEase.Entity.User;
 import com.example.RitualEase.Repository.BookingRepository;
 import com.example.RitualEase.Repository.UserRepository;
@@ -38,11 +39,24 @@ public class BookingController {
     }
 
     @GetMapping("/puja/{pujaId}/pandits")
-    public String selectPandit(@PathVariable Long pujaId, Model model) {
+    public String selectPandit(@PathVariable Long pujaId,
+                               @RequestParam double lat,
+                               @RequestParam double lon,
+                               @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate pujaDate,
+                               @RequestParam String timeslot,
+                               Model model) {
         model.addAttribute("puja", pujaService.getPujaById(pujaId));
-        model.addAttribute("pandits", panditService.getPanditsByPujaId(pujaId));
+        List<Pandit> pandits = panditService.getPanditsByPujaAndLocation(pujaId, lat, lon, 50);
+        model.addAttribute("pandits", pandits);
+
+        model.addAttribute("selectedLat", lat);
+        model.addAttribute("selectedLon", lon);
+        model.addAttribute("selectedDate", pujaDate);
+        model.addAttribute("selectedTimeslot", timeslot);
+
         return "pandits"; // pandits.html
     }
+
 
     @GetMapping("/book-puja/{pujaId}/{panditId}")
     public String bookPuja(@PathVariable Long pujaId,

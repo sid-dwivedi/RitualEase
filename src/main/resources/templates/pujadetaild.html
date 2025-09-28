@@ -58,9 +58,7 @@
 </div>
 
 <!-- ===== Button to go Pandits page ===== -->
-<a th:href="@{/puja/{id}/pandits(id=${puja.id})}" onclick="return validateSelections();">
-    <button>Select Pandit</button>
-</a>
+<button type="button" th:onclick="'goToPanditsPage(' + ${puja.id} + ')'">Select Pandit</button>
 
 <!-- ===== Map Modal ===== -->
 <div id="mapModal">
@@ -89,6 +87,10 @@
             const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
             const data = await res.json();
             selectedLocation = { display_name: data.display_name, lat, lon };
+
+             localStorage.setItem("puja_location", JSON.stringify(selectedLocation));
+
+
             alert("📍 Location selected: " + data.display_name);
         }, () => {
             alert("⚠ Could not fetch your current location.");
@@ -112,6 +114,8 @@
                 if (marker) map.removeLayer(marker);
                 marker = L.marker([lat, lon]).addTo(map).bindPopup(data.display_name).openPopup();
                 selectedLocation = { display_name: data.display_name, lat, lon };
+
+                 localStorage.setItem("puja_location", JSON.stringify(selectedLocation));
             });
         }
     });
@@ -125,6 +129,27 @@
             alert("⚠ Please click somewhere on the map first.");
         }
     });
+
+    //
+    function goToPanditsPage(pujaId) {
+    const locationData = JSON.parse(localStorage.getItem("puja_location"));
+    const pujaDate = document.getElementById("pujaDate").value;
+    const timeslot = document.getElementById("timeslotSelect").value;
+
+    if (!locationData || !pujaDate || !timeslot) {
+        alert("⚠ Please select location, date and time slot!");
+        return false;
+    }
+
+    const lat = locationData.lat;
+    const lon = locationData.lon;
+    // build url with query params
+    const url = `/puja/${pujaId}/pandits?lat=${lat}&lon=${lon}&pujaDate=${encodeURIComponent(pujaDate)}&timeslot=${encodeURIComponent(timeslot)}`;
+    window.location.href = url;
+    return false;
+}
+
+
 
     // Validation before moving to pandits page
     function validateSelections() {
