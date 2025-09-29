@@ -32,6 +32,7 @@
             <td th:text="${booking.status}"></td>
             <td th:text="${booking.location}"></td>
             <td th:text="${booking.pujaDate}"></td>
+            <td> <a th:href="@{/bookings/{id}/details(id=${booking.id})}">View Details</a></td>
         </tr>
         </tbody>
     </table>

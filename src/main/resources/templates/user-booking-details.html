@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Booking Details</title>
+</head>
+<body>
+<h2>Booking Details</h2>
+
+<table border="1" cellpadding="10">
+    <tr><th>ID</th><td th:text="${booking.id}"></td></tr>
+    <tr><th>Pandit Name</th><td th:text="${booking.pandit.userName}"></td></tr>
+    <tr><th>Puja Name</th><td th:text="${booking.puja.pujaName}"></td></tr>
+    <tr><th>Date</th><td th:text="${booking.date}"></td></tr>
+    <tr><th>Time Slot</th><td th:text="${booking.timeSlot}"></td></tr>
+    <tr><th>Location</th><td th:text="${booking.location}"></td></tr>
+    <tr><th>Puja Date</th><td th:text="${booking.pujaDate}"></td></tr>
+    <tr><th>Status</th><td th:text="${booking.status}"></td></tr>
+</table>
+
+<br>
+<a th:href="@{/userbookings}">Back to My Bookings</a>
+</body>
+</html>
